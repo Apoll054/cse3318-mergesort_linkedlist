@@ -23,12 +23,31 @@ static double cpu_seconds(void) {
  * list_has_all(), list_is_stable(), list_is_sorted(), list_print().
  * Print one clear line per check (e.g. "stable: YES"). */
 static void student_checks(Node *result, int n, int max_key) {
-    /* (void)x; marks parameter x as intentionally unused, which silences the
-       compiler's "unused parameter" warning. Delete a parameter's (void) once
-       you use that parameter. If you never use max_key, keep its (void). */
-    (void)result;
-    (void)n;
-    (void)max_key;
+    int length = list_length(result);//store call values to prevent extra time complexity
+
+    int has_all = list_has_all(result, n);
+
+    int stable = list_is_stable(result);
+
+    if (length==n){//used conditionals as per function designs
+        printf("Result length: %d (expected: %d) \n YES the result length is the same\n", length, n);
+    }
+    else
+    {
+        printf("Result length: %d (expected: %d) \n NO the result length is not the same\n", length, n);
+    }
+
+    if (has_all==1){
+        printf("YES! all nodes present exactly once\n");
+    }
+    else printf("NO! all nodes not present exactly once\n");
+
+    if (stable==1){
+        printf("YES! MergeSort implementation is Stable\n");
+    }
+    else printf("NO! MergeSort implementation not Stable\n");
+
+    (void)max_key;//unused
 }
 
 int main(int argc, char **argv) {
