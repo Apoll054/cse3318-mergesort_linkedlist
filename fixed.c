@@ -12,7 +12,49 @@
 #include <stdlib.h>
 #include "list.h"
 
+/* ------------------------------------------------------------------ */
+/* Candidate 2     fixed                                                    */
+/* ------------------------------------------------------------------ */
+static Node *split_list(Node *head) {
+    if (head == NULL || head->next == NULL) return NULL;
+    Node *slow = head;
+    Node *fast = head->next;
+    while (fast != NULL && fast->next != NULL) {
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    Node *second = slow->next;
+    slow->next = NULL;
+    return second;
+}
+static Node *merge2(Node *a, Node *b) {
+    Node dummy;
+    Node *tail = &dummy;
+    dummy.next = NULL;
+    while (a != NULL && b != NULL) {
+        if (a->key <= b->key) {
+            tail->next = a;
+            a = a->next;
+        } else {
+            tail->next = b;
+            b = b->next;
+        }
+        tail = tail->next;
+    }
+    tail->next = (a != NULL) ? a : b;
+    return dummy.next;
+}
+
+static Node *sort2(Node *head) {
+    if (head == NULL || head->next == NULL) return head;
+    Node *second = split_list(head);
+    head = sort2(head);
+    second = sort2(second);
+    return merge2(head, second);
+}
+
+
 Node *fixed_sort(Node *head) {
-    /* TODO */
-    return head;
+    /* done */
+    return sort2(head);
 }
